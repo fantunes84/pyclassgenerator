@@ -49,3 +49,19 @@ def create_class(class_name, list):
 
     except FileNotFoundError:
         print('Arquivo não encontrado.')
+
+
+def object_creator(class_name, list):
+    entity_name = set_entity_name(class_name)
+    tmp_list = []
+
+    for i in list:
+        tmp_list.append(f'{i}={i}')
+
+    entity = f'{entity_name}({tmp_list})'
+
+    characters = "[]'"
+    for i in range(len(characters)):
+        entity = entity.replace(characters[i], '')
+
+    print(entity)
