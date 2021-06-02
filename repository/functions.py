@@ -72,7 +72,7 @@ def django_object_creator(class_name, list):
     entity_name = set_entity_name(class_name)
     attributes = []
     for i in list:
-        attribute = f'{i} = form_{entity_name}.cleaned_data[\'{i}\']'
+        attribute = f'{i} = form_{entity_name.lower()}.cleaned_data[\'{i}\']'
         attributes.append(attribute)
     object = object_creator(class_name, list)
     attributes.append(object)
