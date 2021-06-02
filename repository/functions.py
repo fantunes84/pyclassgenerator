@@ -45,23 +45,43 @@ def create_class(class_name, list):
             archive.write(f'\n')
             archive.write(f'### BUILDING LIST ###\n')
             archive.write(f'# list = {list}\n')
-        print(f'O arquivo \'{archive_name}.py\' foi gerado com sucesso.')
+        print(f'The file \'{archive_name}.py\' was generated successfully.')
 
     except FileNotFoundError:
-        print('Arquivo não encontrado.')
+        print('File not found.')
 
 
 def object_creator(class_name, list):
     entity_name = set_entity_name(class_name)
+    object_name = (archive_camel(class_name)).lower()
     tmp_list = []
 
     for i in list:
         tmp_list.append(f'{i}={i}')
 
     entity = f'{entity_name}({tmp_list})'
+    entity = unidecode.unidecode(entity)
 
     characters = "[]'"
     for i in range(len(characters)):
         entity = entity.replace(characters[i], '')
+    entity = f'{object_name} = {entity}'
+    return entity
 
-    print(entity)
+def django_object_creator(class_name, list):
+    entity_name = set_entity_name(class_name)
+    attributes = []
+    for i in list:
+        attribute = f'{i} = form_{entity_name}.cleaned_data[\'{i}\']'
+        attributes.append(attribute)
+    object = object_creator(class_name, list)
+    attributes.append(object)
+    return attributes
+
+def api_object_creator(list):
+    attributes = []
+    for i in list:
+        attribute = f'{i} = i[\'{i}\']'
+        attributes.append(attribute)
+    return attributes
+
